@@ -1,4 +1,4 @@
-# banking-marketing-ML-classification
+# banking-marketing-deposit-ML-classification
 
 ## Project Overview
 
