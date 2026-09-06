@@ -1,71 +1,123 @@
-# banking-marketing-deposit-ML-classification
+# Banking Marketing ML Classification
 
-## Project Overview
+> End-to-end machine learning classification pipeline predicting bank marketing campaign outcomes using XGBoost, LightGBM, and SHAP-based explainability.
 
-This project involves the implementation of a classification model using various machine learning algorithms to predict a target variable. 
-The dataset is loaded, preprocessed, and used to train different classification models. 
-The evaluation of the models is conducted using metrics such as confusion matrix, learning curves, and other relevant performance indicators.
-## Overall Steps:
-1. Import all Libraries & Load the Dataset
-   Import necessary libraries for data manipulation, visualization, and machine learning.
-   Load the dataset for analysis.
+---
 
-2. Split Data (Train and Test)
-   Divide the dataset into training and testing sets for model training and evaluation.
+## Overview
 
-3. Exploratory Data Analysis (EDA)
-   Analyze categorical and numerical data for insights into the dataset.
+This project builds a complete supervised ML pipeline on a banking marketing dataset to predict whether a client will subscribe to a term deposit following a direct marketing campaign. The pipeline covers data exploration, feature engineering, model training, hyperparameter tuning, and model explainability — producing business-interpretable predictions backed by SHAP feature importance analysis.
 
-4. Removing Redundant Variables
-   Identify and remove redundant variables based on business value.
+---
 
-5. Data Preparation: Data Train
-    Drop duplicated data.
-    Analyze and handle outliers.
-    Handle missing values.
+## System Architecture
 
-6. Data Preparation: Data Test
-  Drop duplicated data.
-  Analyze and handle outliers.
-  Handle missing values.
+```mermaid
+flowchart TD
+    A[Raw Banking Dataset] --> B[Exploratory Data Analysis]
+    B --> C[Data Preprocessing]
+    C --> D[Feature Engineering]
+    D --> E[Train / Validation / Test Split]
+    E --> F[Model Training]
+    F --> G[XGBoost]
+    F --> H[LightGBM]
+    F --> I[Logistic Regression Baseline]
+    G & H & I --> J[Model Evaluation]
+    J --> K[Hyperparameter Tuning]
+    K --> L[Best Model Selection]
+    L --> M[SHAP Explainability]
+    M --> N[Business Insights Report]
+```
 
-7. Split Data into Xtrain, ytrain, Xtest, ytest
-   Separate features (X) and target variable (y) for both training and testing sets.
+---
 
-8. Encoding Preparation
-        Prepare the data for encoding.
+## Tech Stack
 
-9. Encode Separately for Data Train and Data Test
-        Perform encoding on categorical variables for both training and testing sets.
+| Layer | Technology |
+|---|---|
+| ML Models | XGBoost, LightGBM, Logistic Regression |
+| Explainability | SHAP (SHapley Additive exPlanations) |
+| Data Processing | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Model Selection | Scikit-learn (cross-validation, GridSearchCV) |
+| Language | Python |
 
-10. Split Xtrain and Xtest into Different Categories
+---
 
-    Split the features into different categories.
+## Dataset
 
-11. Standard Scaler
-    Standardize the features using Standard Scaler.
+**Bank Marketing Dataset** (UCI Machine Learning Repository)  
+- 45,211 records, 16 features
+- Target: `y` — whether the client subscribed to a term deposit (binary: yes / no)
+- Features: client demographics, campaign contact history, economic indicators
 
-12. Modelling Classification ML Algorithms:
-    Logistic Regression
-    K-Nearest Neighbor (KNN)
-    Naive Bayes
-    Support Vector Machine (SVM)
+---
 
-13. Evaluation Model:
-    Confusion Matrix Evaluation
-    Learning curve Regression
-    Learning curve K-Nearest Neighbor (KNN)
-    Learning curve Naive Bayes
-    Learning curve Support Vector Machine (SVM)
+## Pipeline Steps
 
-## Requirements :
-pandas: 1.5.3
-numpy: 1.24.3
-matplotlib: 3.7.1
-seaborn: 0.12.2
-plotly: 5.9.0
-scipy: 1.10.1
-scikit-learn: 1.3.0
+### 1. Exploratory Data Analysis
+- Class imbalance analysis
+- Feature distribution plots
+- Correlation heatmap
+- Missing value audit
 
-#Tags 
-banking, classification, machine learning, deposito
+### 2. Feature Engineering
+- Encoding: ordinal encoding for ordered categoricals, one-hot for nominals
+- Handling `unknown` values as a separate category
+- Log transformation on skewed numerical features
+- Feature interaction creation (e.g., campaign intensity score)
+
+### 3. Model Training & Evaluation
+
+| Model | AUC-ROC | F1 (minority class) | Precision | Recall |
+|---|---|---|---|---|
+| XGBoost | 0.929 | 0.67 | 0.71 | 0.63 |
+| LightGBM | 0.927 | 0.65 | 0.69 | 0.62 |
+| Logistic Regression | 0.893 | 0.59 | 0.64 | 0.55 |
+
+### 4. SHAP Explainability
+
+Top features driving subscription predictions:
+- `duration` — call duration (strongest positive driver)
+- `poutcome` — previous campaign outcome
+- `emp.var.rate` — employment variation rate (macro indicator)
+- `euribor3m` — 3-month Euribor rate
+- `age` — client age
+
+---
+
+## Project Structure
+
+```
+banking-marketing-ML-classification/
+├── notebooks/
+│   ├── 01_eda.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   ├── 03_model_training.ipynb
+│   └── 04_shap_explainability.ipynb
+├── src/
+│   ├── preprocessing.py
+│   ├── features.py
+│   └── evaluate.py
+├── data/
+│   └── bank-additional-full.csv
+└── requirements.txt
+```
+
+---
+
+## Setup
+
+```bash
+git clone https://github.com/anwarraif/banking-marketing-ML-classification
+cd banking-marketing-ML-classification
+pip install -r requirements.txt
+jupyter notebook notebooks/01_eda.ipynb
+```
+
+---
+
+## Author
+
+**Kurnia Anwar Ra'if** — Data Scientist & AI Engineer  
+[LinkedIn](https://www.linkedin.com/in/anwaraif/) | [GitHub](https://github.com/anwarraif) | kurniaanwarraif@gmail.com
